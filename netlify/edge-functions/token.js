@@ -32,9 +32,17 @@ export default async function getToken(request) {
     repo,
   });
 
-  console.log(apps);
+  const appInstallationId = apps.data.id;
 
-  return new Response('Hello world');
+  console.log({ appInstallationId });
+
+  const {
+    data: { token: applicationToken },
+  } = await appOctokit.rest.apps.createInstallationAccessToken({
+    installation_id: appInstallationId,
+  });
+
+  return new Response(applicationToken);
 }
 
 export const config = { path: '/token' };
