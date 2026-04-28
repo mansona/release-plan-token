@@ -40,6 +40,10 @@ export default async function getToken(request) {
     data: { token: applicationToken },
   } = await appOctokit.rest.apps.createInstallationAccessToken({
     installation_id: appInstallationId,
+    permissions: {
+      pull_requests: 'write',
+      contents: 'write',
+    },
   });
 
   return new Response(applicationToken);
